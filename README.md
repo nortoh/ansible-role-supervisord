@@ -1,8 +1,11 @@
 # Ansible Role: Supervisord
 
 Hand-editing Supervisord's main config and per-program `.ini` files across a fleet doesn't
-scale. This role generates both from a single `supervisord_programs` variable and restarts the
-service when they change.
+scale. This role generates the main config from a handful of tunables and the per-program
+`.ini` files from a single `supervisord_programs` variable — but only a per-program change
+restarts the service; a main-config-only change (e.g. bumping `supervisord_minfds`) renders
+the new file without reloading it, since only the per-program task notifies the restart
+handler. See [AGENTS.md](AGENTS.md) for the exact task/handler wiring.
 
 ## Requirements
 
