@@ -5,8 +5,9 @@ Ansible role that installs Supervisord and generates its process-control configs
 ## Architecture in a paragraph
 
 Supervisord needs a main config plus one `[program:x]` block per managed process, and
-hand-editing those across a fleet doesn't scale — this role generates both from a single
-`supervisord_programs` list variable. It follows the standard single-role layout:
+hand-editing those across a fleet doesn't scale — this role generates the main config from a
+handful of tunables and the per-program `.ini` files from a single `supervisord_programs` list
+variable. It follows the standard single-role layout:
 `tasks/main.yml` installs the `supervisor` package, renders `/etc/supervisord.conf` from
 `templates/supervisord.conf.j2`, then loops `supervisord_programs` through
 `templates/program.ini.j2` to write one `.ini` file per program under `supervisord_conf_d`,
